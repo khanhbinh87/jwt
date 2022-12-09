@@ -5,7 +5,8 @@ const router = express.Router()
 const initWebRoutes = (app) => {
     router.get('/', homeController.handleHomeController)
     router.get('/user', homeController.handleUserController)
-     
+    router.post('/users/create-user', homeController.handleCreateNewUser)
+
     return app.use('/',router)
 }
 
