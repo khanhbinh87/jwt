@@ -17,6 +17,9 @@
       <form action="/users/create-user" method="POST">
         <div class="container">
           <div class="row">
+            <h3>Create a user :</h3>
+          </div>
+          <div class="row">
             <div class="col-6 mt-3">
               <label for="email" class="form-label">Email address</label>
               <input
@@ -53,6 +56,33 @@
             <div class="col-12">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
+          </div>
+          <div class="row mt-3">
+            <hr />
+            <h3>List user :</h3>
+            <table class="table table-striped table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% userList.forEach(function(item,index){ %>
+                <tr>
+                  <th scope="row"><%= index + 1 %></th>
+                  <td><%= item.username %></td>
+                  <td><%= item.email %></td>
+                  <td>
+                    <button class="btn btn-warning">Edit</button>
+                    <button class="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
           </div>
         </div>
       </form>

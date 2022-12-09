@@ -1,12 +1,12 @@
 import bcrypt from 'bcryptjs'
-import mysql from 'mysql2'
-
+import mysql from 'mysql2/promise'
+import bluebird from 'bluebird';
 // // create the connection to database
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'jwt'
-});
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     database: 'jwt'
+// });
 
 
 
@@ -16,22 +16,39 @@ const hassUserPassword = (password) => {
 
     return bcrypt.hashSync(password, salt);
 }
-const createNewUser = (email, password, username) => {
+const createNewUser = async (email, password, username) => {
+    const connection = await mysql.createConnection(
+        { host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird });
     let hassPass = hassUserPassword(password);
-    connection.query(`INSERT INTO users(email, password, username) VALUES(?,?,?)`, [email, hassPass, username],
-        function (err, results, fields) {
-            console.log(results);
 
-        }
-    )
+    try {
+        const [rows, fields] = await connection.execute(`INSERT INTO users(email, password, username) VALUES(?,?,?)`, [email, hassPass, username],
+            function (err, results, fields) {
+               
+                if (err) {
+                    console.log(err)
+                }
+            }
+        );
+        
+    } catch (error) {
+        console.log('err', error)
+    }
+
+
 }
-const getUserList = () => {
-    connection.query(`Select * from users`,
-        function (err, results, fields) {
-            console.log(results);
+const getUserList = async () => {
 
-        }
-    )
+    // create the connection
+
+    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird });
+    // query database
+    try {
+        const [rows, fields] = await connection.execute('Select * from users');
+        return rows
+    } catch (error) {
+        console.log('err', error)
+    }
 }
 module.exports = {
     hassUserPassword,
