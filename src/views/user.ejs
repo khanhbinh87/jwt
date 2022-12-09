@@ -14,8 +14,8 @@
   </head>
   <body>
     <div class="form-container">
-      <form action="/users/create-user" method="POST">
-        <div class="container">
+      <div class="container">
+        <form action="/users/create-user" method="POST">
           <div class="row">
             <h3>Create a user :</h3>
           </div>
@@ -57,35 +57,41 @@
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
           </div>
-          <div class="row mt-3">
-            <hr />
-            <h3>List user :</h3>
-            <table class="table table-striped table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Username</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% userList.forEach(function(item,index){ %>
-                <tr>
-                  <th scope="row"><%= index + 1 %></th>
-                  <td><%= item.username %></td>
-                  <td><%= item.email %></td>
-                  <td>
-                    <button class="btn btn-warning">Edit</button>
-                    <button class="btn btn-danger">Delete</button>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
-          </div>
+        </form>
+        <div class="row mt-3">
+          <hr />
+          <h3>List user :</h3>
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% userList.forEach(function(item,index){ %>
+              <tr>
+                <th scope="row"><%= item.id %></th>
+                <td><%= item.username %></td>
+                <td><%= item.email %></td>
+                <td>
+                  <button class="btn btn-warning">Edit</button>
+                  <form
+                    action="/delete-user/<%= item.id%>"
+                    method="post"
+                    style="display: inline"
+                  >
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
         </div>
-      </form>
+      </div>
     </div>
   </body>
 </html>
