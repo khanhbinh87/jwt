@@ -11,10 +11,10 @@ const handleUserController = async (req, res) => {
     })
 }
 
-const handleCreateNewUser = (req, res) => {
+const handleCreateNewUser = async (req, res) => {
     let { email, password, username } = req.body;
 
-    userService.createNewUser(email, password, username)
+    await userService.createNewUser(email, password, username)
 
 
     return res.redirect('/user')
