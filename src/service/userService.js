@@ -30,51 +30,45 @@ const createNewUser = async (email, password, username) => {
 }
 const getUserList = async () => {
 
-    // create the connection
-
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird });
-    // query database
-    try {
-        const [rows, fields] = await connection.execute('Select * from user');
-        return rows
-    } catch (error) {
-        console.log('err', error)
-    }
+    return await db.User.findAll()
 }
-const deleteUser = async (id) => {
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird });
-    // query database
+const deleteUser = async (userId) => {
+
     try {
-        const [rows, fields] = await connection.execute('DELETE FROM user WHERE id=?', [id]);
-        return rows
+        await db.User.destroy({
+            where: {
+                id: userId
+            }
+        })
     } catch (error) {
         console.log('err', error)
     }
+
 }
 
 const getUserById = async (id) => {
-    const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird });
-    // query database
-    try {
-        const [rows, fields] = await connection.execute('Select * from user WHERE id=?', [id]);
 
-        return rows
-    } catch (error) {
-        console.log('err', error)
-    }
+    let user = {}
+    user = await db.User.findOne({
+        where: {
+            id: id
+        }
+    })
+    return user.get({ plain: true })
+
 }
 const updateUser = async (email, username, id) => {
-    const connection = await mysql.createConnection(
-        { host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird });
-    try {
-        const [rows, fields] = await connection.execute(`UPDATE user Set email=?,username =?  WHERE id = ?`, [email, username, id],
-            function (err, results, fields) {
 
-                if (err) {
-                    console.log(err)
-                }
+    try {
+       
+        await db.User.update({
+            email: email,
+            username: username
+        }, {
+            where: {
+                id: id
             }
-        );
+        })
 
     } catch (error) {
         console.log('err', error)
