@@ -10,7 +10,7 @@ const initWebRoutes = (app) => {
     router.post('/delete-user/:id',homeController.handleDeleteUser)
     router.get('/update-user/:id', homeController.getUpdateUser)
     router.post('/user/update-user', homeController.handleUpdateUser)
-    router.get('/api/test-api', apiController.testApi)
+    router.get('/api/v1/test-api', apiController.testApi)
 
     return app.use('/',router)
 }
