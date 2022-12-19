@@ -10,7 +10,7 @@ const hassUserPassword = (password) => {
 
     return bcrypt.hashSync(password, salt);
 }
-const createNewUser = async (email, password, username) => {
+const createNewUser = async (email,phone, password, username) => {
 
     let hassPass = hassUserPassword(password);
 
@@ -19,7 +19,8 @@ const createNewUser = async (email, password, username) => {
         await db.User.create({
             username: username,
             password: hassPass,
-            email: email
+            email: email,
+            phone:phone
         })
 
     } catch (error) {
